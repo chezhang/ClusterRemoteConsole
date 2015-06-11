@@ -20,7 +20,9 @@ namespace Microsoft.ComputeCluster.Admin
         /// </summary>
         private ClusterManager cluster;
 
-        private readonly string linuxClientToolPathStoreFile = string.Format("{0}\\ClusterRemoteConsoleLinuxClientToolPath", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+        private static readonly string executingAssemblyPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private static readonly string linuxClientToolPathStoreFileName = "ClusterRemoteConsoleLinuxClientToolPath";
+        private static readonly string linuxClientToolPathStoreFile = string.Format("{0}\\{1}", executingAssemblyPath, linuxClientToolPathStoreFileName);
 
         #endregion
 
@@ -92,6 +94,12 @@ namespace Microsoft.ComputeCluster.Admin
             termServManagerControl1.Password = getCred.Password;
         }
 
+        /// <summary>
+        /// Event handler for the click event on the SetLinuxClientTool link label.
+        /// Open a file choosing dialog for user to set a linux client tool
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetLinuxClientToolLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var openFile = new System.Windows.Forms.OpenFileDialog();
@@ -107,7 +115,7 @@ namespace Microsoft.ComputeCluster.Admin
                 }
                 try
                 {
-                    System.IO.File.WriteAllText(this.linuxClientToolPathStoreFile, openFile.FileName);
+                    System.IO.File.WriteAllText(MainForm.linuxClientToolPathStoreFile, openFile.FileName);
                 }
                 catch (System.IO.IOException) { }
                 catch (System.ArgumentNullException) { }
@@ -201,7 +209,7 @@ namespace Microsoft.ComputeCluster.Admin
         {
             try
             {
-                this.termServManagerControl1.LinuxClientToolPath = System.IO.File.ReadAllText(this.linuxClientToolPathStoreFile);
+                this.termServManagerControl1.LinuxClientToolPath = System.IO.File.ReadAllText(MainForm.linuxClientToolPathStoreFile);
             }
             catch (System.IO.IOException) { }
             catch (System.UnauthorizedAccessException) { }

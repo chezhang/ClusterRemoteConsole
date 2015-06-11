@@ -413,6 +413,8 @@ namespace Microsoft.ComputeCluster.Admin
                 SetWindowPos(p.MainWindowHandle, HWND_TOPMOST, position.X, position.Y+20, width-4, height-24, SWP_NOACTIVATE);
                 //remove window frame
                 SetWindowLong(p.MainWindowHandle, GWL_STYLE, style);
+                SetWindowLong(p.MainWindowHandle, GWL_STYLE, style);
+                SetWindowLong(p.MainWindowHandle, GWL_STYLE, style);
                 SetWindowPos(p.MainWindowHandle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
             }
         }
@@ -421,6 +423,8 @@ namespace Microsoft.ComputeCluster.Admin
 
         #region Private Methods
 
+        //move to a extra file
+        //use full name (with class name) when being called
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
         [DllImport("user32.dll")]
@@ -440,6 +444,8 @@ namespace Microsoft.ComputeCluster.Admin
         //static extern bool SystemParametersInfo(uint iAction, uint iParameter, ref uint pParameter, uint iWinIni);
         [DllImport("User32.dll")]
         static extern bool SystemParametersInfo(uint iAction, uint iParameter, uint pParameter, uint iWinIni);
+        [DllImport("user32.dll")]
+        static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
         /// <summary>
         /// Helper method to connect to a server
